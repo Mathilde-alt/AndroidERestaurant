@@ -1,11 +1,9 @@
 package fr.isen.jean.androiderestaurant
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import fr.isen.jean.androiderestaurant.databinding.ActivityHomeBinding
@@ -18,28 +16,33 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_home)
-
-        val entree = findViewById<TextView>(R.id.Entrees)
-        entree.setOnClickListener {
-            val intent = Intent(this,CategoryActivity::class.java)
-            startActivity(intent)
-        }
+        setContentView(binding.root)
 
         binding.starters.setOnClickListener {
-            Log.d("activity_home","Vous avez cliqué sur le bouton")
-            Toast.makeText(this, "vous avez cliqué sur le bouton",Toast.LENGTH_SHORT)
+            Log.d("activity_home","Vous avez cliqué sur le bouton entrées")
+            Toast.makeText(this, "vous avez cliqué sur le bouton entrées",Toast.LENGTH_SHORT)
             val intent = Intent(this,CategoryActivity::class.java)
-            intent.putExtra("category",getString(R.string.home_starters))
+            intent.putExtra("category","Entrées")
             startActivity(intent)
         }
 
-        val dessert = findViewById<TextView>(R.id.Desserts)
-        dessert.setOnClickListener {
+        binding.dishes.setOnClickListener {
+            Log.d("activity_home","Vous avez cliqué sur le bouton plats")
+            Toast.makeText(this, "vous avez cliqué sur le bouton plats",Toast.LENGTH_SHORT)
             val intent = Intent(this,CategoryActivity::class.java)
+            intent.putExtra("category","Plats")
+            startActivity(intent)
+        }
+
+        binding.desserts.setOnClickListener {
+            Log.d("activity_home","Vous avez cliqué sur le bouton desserts")
+            Toast.makeText(this, "vous avez cliqué sur le bouton desserts",Toast.LENGTH_SHORT)
+            val intent = Intent(this,CategoryActivity::class.java)
+            intent.putExtra("category","Desserts")
             startActivity(intent)
         }
     }
 }
+
 
 
