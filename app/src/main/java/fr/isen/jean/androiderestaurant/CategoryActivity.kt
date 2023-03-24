@@ -21,7 +21,7 @@ class CategoryActivity : AppCompatActivity() {
         binding = ActivityCategoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.CategoryTitle.text =
+       /* binding.CategoryTitle.text =
             intent.getStringExtra("category") ?: supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val platList = resources.getStringArray(R.array.liste_plats).toList() as ArrayList
@@ -29,7 +29,7 @@ class CategoryActivity : AppCompatActivity() {
         platRecyclerView.layoutManager = LinearLayoutManager(this)
         platRecyclerView.adapter = PlatAdapter(platList)  //platList = dishes
 
-        startActivity(Intent(this, DetailActivity::class.java))
+        startActivity(Intent(this, DetailActivity::class.java))*/
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -48,9 +48,9 @@ class CategoryActivity : AppCompatActivity() {
             Request.Method.POST, url, body,
             { response ->
                 Log.d("CategoryActivity","ca marche")
-                val data = Gson().fromJson(response.toString(), DataResult::class.java)
+                /*val data = Gson().fromJson(response.toString(), DataResult::class.java)
 
-                val platList = data.data[0].items.map { it.categNameFr ?: ...}
+                val platList = data.data[0].items.map { it.categNameFr ?: ...}*/
 
             },
             { error ->
