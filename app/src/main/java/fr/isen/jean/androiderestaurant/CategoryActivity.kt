@@ -12,25 +12,26 @@ import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import fr.isen.jean.androiderestaurant.databinding.ActivityCategoryBinding
 import fr.isen.jean.androiderestaurant.model.DataResult
+import fr.isen.jean.androiderestaurant.model.Items
 import org.json.JSONObject
 
 class CategoryActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityCategoryBinding
-    private lateinit var categoryAdapter: CategoryAdapter
+    //private lateinit var categoryAdapter: CategoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCategoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-       binding.categoryTitle.text = intent.getStringExtra("category") ?: ""
+        binding.categoryTitle.text = intent.getStringExtra("category") ?: ""
 
         binding.categoryRecyclerVIew.layoutManager = LinearLayoutManager(this)
         binding.categoryRecyclerVIew.adapter = CategoryAdapter(arrayListOf()){
             startActivity(Intent(this, DetailActivity::class.java))
         }
-        getDishFromServer()
+        intent.getStringExtra("category")?.let { getDishFromServer(it) }
 
     }
 
@@ -40,9 +41,11 @@ class CategoryActivity : AppCompatActivity() {
 
     }
 
-    private fun getDishFromServer() {
+    private fun getDishFromServer(type : String) {
         val queue = Volley.newRequestQueue(this)
         val url = "http://test.api.catering.bluecodegames.com/menu"
+        var dish : ArrayList<String>
+
         val body = JSONObject().apply {
             put("id_shop", 1)
         }
@@ -51,9 +54,16 @@ class CategoryActivity : AppCompatActivity() {
             { response ->
                 Log.d("CategoryActivity","ca marche")
                 val data = Gson().fromJson(response.toString(), DataResult::class.java)
-
-                val platList = data.data[1].items.map { it.nameEn ?: ""}.toList() as ArrayList
-                (binding.categoryRecyclerVIew.adapter as CategoryAdapter).updateDishes(platList)
+                println(type)
+                when(type) {
+                    "Entrées" -> { dish = data.data[0].items.map { it.nameEn ?: "" }.toList() as ArrayList
+                        (binding.categoryRecyclerVIew.adapter as CategoryAdapter).updateDishes(dish)
+                    println(type)}
+                    "Plats" -> { dish = data.data[1].items.map { it.nameEn ?: "" }.toList() as ArrayList
+                        (binding.categoryRecyclerVIew.adapter as CategoryAdapter).updateDishes(dish) }
+                    "Desserts" -> { dish = data.data[2].items.map { it.nameEn ?: "" }.toList() as ArrayList
+                        (binding.categoryRecyclerVIew.adapter as CategoryAdapter).updateDishes(dish)}
+                }
             },
             { error ->
                 Log.d("CategoryActivity","404 error")
