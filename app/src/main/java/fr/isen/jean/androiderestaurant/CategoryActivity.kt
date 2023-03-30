@@ -17,6 +17,7 @@ import org.json.JSONObject
 class CategoryActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityCategoryBinding
+    private lateinit var categoryAdapter: CategoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +52,8 @@ class CategoryActivity : AppCompatActivity() {
                 Log.d("CategoryActivity","ca marche")
                 val data = Gson().fromJson(response.toString(), DataResult::class.java)
 
-                val platList = data.data[0].items.map { it.categNameFr ?: ""}.toList() as ArrayList
-
+                val platList = data.data[1].items.map { it.nameEn ?: ""}.toList() as ArrayList
+                (binding.categoryRecyclerVIew.adapter as CategoryAdapter).updateDishes(platList)
             },
             { error ->
                 Log.d("CategoryActivity","404 error")
